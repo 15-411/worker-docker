@@ -32,8 +32,8 @@ RUN apt-get update && apt-get install -y \
    sudo \
    wget \
 && rm -rf /var/lib/apt/lists/*
-   
-   
+
+
 #------------------------------
 # C0 Installation
 #------------------------------
@@ -47,12 +47,25 @@ RUN wget https://c0.cs.cmu.edu/downloads/cc0-debian.deb \
 # SML/NJ Installation
 #------------------------------
 ENV smlnj_version=110.99
-RUN cd /opt \ 
+RUN cd /opt \
  && mkdir smlnj \
  && cd smlnj \
  && wget http://smlnj.cs.uchicago.edu/dist/working/$smlnj_version/config.tgz \ 
- && tar xzf config.tgz \ 
+ && tar xzf config.tgz \
  && rm config.tgz \
- && config/install.sh \ 
+ && config/install.sh \
  && ln -s /opt/smlnj/bin/sml /usr/local/bin/ \
  && ln -s /opt/smlnj/bin/ml-* /usr/local/bin/
+
+#--------------
+# Misc Package Installation
+# Add convenience packages for students using container
+#--------------
+RUN apt-get update && apt-get install -y \
+    bison \
+    emacs \
+    flex \
+    gdb \
+    python3 \
+    vim \
+&& rm -rf /var/lib/apt/lists/*
