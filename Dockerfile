@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y \
    llvm \
    make \
    python \
+   rlwrap \
    sudo \
    wget \
 && rm -rf /var/lib/apt/lists/*
@@ -85,7 +86,7 @@ RUN cd /opt && \
   make && \
   make repl
 
-RUN echo 'alias molasses=/opt/molasses' >> "$HOME/.bashrc"
+RUN echo 'alias molasses=/opt/molasses/molasses' >> "$HOME/.bashrc"
 RUN echo 'alias smlnj="rlwrap sml @SMLload=/opt/molasses/molasses-repl"' >> "$HOME/.bashrc"
 
 
