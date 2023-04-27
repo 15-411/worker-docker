@@ -51,12 +51,43 @@ ENV smlnj_version=110.99
 RUN cd /opt \
  && mkdir smlnj \
  && cd smlnj \
- && wget http://smlnj.cs.uchicago.edu/dist/working/$smlnj_version/config.tgz \ 
+ && wget http://smlnj.cs.uchicago.edu/dist/working/$smlnj_version/config.tgz \
  && tar xzf config.tgz \
  && rm config.tgz \
  && config/install.sh \
  && ln -s /opt/smlnj/bin/sml /usr/local/bin/ \
  && ln -s /opt/smlnj/bin/ml-* /usr/local/bin/
+
+
+#-----------------------
+# MLton Installation
+#-----------------------
+ENV mlton_version=20210117
+ENV mlton_pkg=mlton-$mlton_version-1.amd64-linux
+RUN apt-get update && apt-get install -y \
+    libgmp-dev \
+  && \
+  cd /opt && \
+  mkdir mlton && \
+  cd mlton && \
+  curl https://sourceforge.net/projects/mlton/files/mlton/$mlton_version/$mlton_pkg.tgz -LO && \
+  tar xvf $mlton_pkg.tgz && \
+  rm $mlton_pkg.tgz && \
+  make -C $mlton_pkg
+
+
+#-----------------------
+# Molasses Installation
+#-----------------------
+RUN cd /opt && \
+  git clone --recurse-submodules -j8 https://github.com/T-Brick/molasses && \
+  cd molasses && \
+  make && \
+  make repl
+
+RUN echo 'alias molasses=/opt/molasses' >> "$HOME/.bashrc"
+RUN echo 'alias smlnj="rlwrap sml @SMLload=/opt/molasses/molasses-repl"' >> "$HOME/.bashrc"
+
 
 #--------------
 # Misc Package Installation
