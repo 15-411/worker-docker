@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y \
    git \
    llvm \
    make \
-   python \
+   python3 \
    rlwrap \
    sudo \
    wget \
