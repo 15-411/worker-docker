@@ -101,4 +101,5 @@ RUN apt-get update && apt-get install -y \
     gdb \
     python3 \
     vim \
+    lldb \
 && rm -rf /var/lib/apt/lists/*
