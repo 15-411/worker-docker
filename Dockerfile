@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -y \
 #------------------------------
 # C0 Installation
 #------------------------------
-RUN wget https://c0.cs.cmu.edu/downloads/cc0-debian.deb \
+RUN wget https://cs.cmu.edu/~15411/downloads/cc0-debian.deb \
  && apt-get update && apt-get install -y ./cc0-debian.deb \
  && rm cc0-debian.deb \
  && rm -rf /var/lib/apt/lists/*
