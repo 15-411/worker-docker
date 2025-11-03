@@ -6,4 +6,4 @@ This GitHub repository is set to continuously deploy to the `cmu411/autograder` 
 
 DockerHub is set up to cache layers of the image. (Each subsequent command in the Dockerfile creates a new layer.) Therefore, modifying earlier commands in the Dockerfile invalidates the layer cache for all following commands. If you are installing new software, you should prefer adding the installation commands to the end of the file.
 
-DockerHub will NOT trigger re-builds of downstream images as of July 2019; therefore, if you rebuild the `cmu411/autograder` image by pushing this repo to GitHub, you should manually trigger re-builds of all language-specific Docker images that use this repo as a base image. You can do this through DockerHub's web interface.
+DockerHub will NOT trigger re-builds of downstream images as of July 2019; therefore, if you rebuild the `cmu411/autograder` image by pushing this repo to GitHub, you should manually trigger re-builds of all language-specific Docker images that use this repo as a base image. You can do this by manually triggering the rebuild workflow in the GitHub UI.
