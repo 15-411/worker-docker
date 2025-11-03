@@ -22,18 +22,40 @@ WORKDIR /autograder
 # Common Package Installation
 #------------------------------
 RUN apt-get update && apt-get install -y \
-   clang \
    curl \
    g++ \
    gcc \
    git \
-   llvm \
    make \
    python3 \
    rlwrap \
    sudo \
    wget \
+   gnupg \
+   software-properties-common lsb-release \
 && rm -rf /var/lib/apt/lists/*
+
+
+#------------------------------
+# Install LLVM version 21 
+#
+# LLVM version 21 isn't available by default in Ubuntu 22.04's apt repos
+#------------------------------
+RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh \
+&& ./llvm.sh 21 && rm llvm.sh \
+&& apt-get update && apt-get install -y \
+    clang-21 \
+    lldb-21 \
+    lld-21 \
+    llvm-21 \
+    llvm-21-dev \
+&& update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-21 100 \
+&& update-alternatives --install /usr/bin/llc llc /usr/bin/llc-21 100 \
+&& update-alternatives --install /usr/bin/opt opt /usr/bin/opt-21 100 \
+&& update-alternatives --install /usr/bin/clang clang /usr/bin/clang-21 100 \
+&& update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-21 100 \
+&& update-alternatives --install /usr/bin/lld lld /usr/bin/lld-21 100 \
+&& update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-21 100
 
 
 #------------------------------
@@ -79,10 +101,18 @@ RUN apt-get update && apt-get install -y \
 
 #-----------------------
 # Molasses Installation
+#
+# At some point, smlnj changed the type for Compiler.version. Molasses was patched to
+# account for this change, but we're still using an older version of smlnj, so we now need
+# to use an older version of Molasses
+# - smlnj update: https://github.com/T-Brick/molasses/issues/2
+# - version we're using:
+#     https://github.com/T-Brick/molasses/commit/d86c70923cabb39d34d2cc198d80bac248d564f8
 #-----------------------
 RUN cd /opt && \
   git clone --recurse-submodules -j8 https://github.com/T-Brick/molasses && \
   cd molasses && \
+  git reset --hard d86c709 && \
   make && \
   make repl
 
@@ -101,5 +131,4 @@ RUN apt-get update && apt-get install -y \
     gdb \
     python3 \
     vim \
-    lldb \
 && rm -rf /var/lib/apt/lists/*
