@@ -37,25 +37,26 @@ RUN apt-get update && apt-get install -y \
 
 
 #------------------------------
-# Install LLVM version 21 
+# Install LLVM version 15 
 #
-# LLVM version 21 isn't available by default in Ubuntu 22.04's apt repos
+# The LLVM-21 installation script works on the Docker image but not on Gradescope (even
+# though both should be Ubuntu 22.04). Not sure about the exact reason, maybe Chris
+# Lattner hates the educational mission and wants to stop us.
 #------------------------------
-RUN wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh \
-&& ./llvm.sh 21 && rm llvm.sh \
-&& apt-get update && apt-get install -y \
-    clang-21 \
-    lldb-21 \
-    lld-21 \
-    llvm-21 \
-    llvm-21-dev \
-&& update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-21 100 \
-&& update-alternatives --install /usr/bin/llc llc /usr/bin/llc-21 100 \
-&& update-alternatives --install /usr/bin/opt opt /usr/bin/opt-21 100 \
-&& update-alternatives --install /usr/bin/clang clang /usr/bin/clang-21 100 \
-&& update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-21 100 \
-&& update-alternatives --install /usr/bin/lld lld /usr/bin/lld-21 100 \
-&& update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-21 100
+
+RUN apt-get update && apt-get install -y \
+   clang-15 \
+   lldb-15 \
+   lld-15 \
+   llvm-15 \
+   llvm-15-dev \
+ && update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-15 100 \
+ && update-alternatives --install /usr/bin/llc llc /usr/bin/llc-15 100 \
+ && update-alternatives --install /usr/bin/opt opt /usr/bin/opt-15 100 \
+ && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-15 100 \
+ && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-15 100 \
+ && update-alternatives --install /usr/bin/lld lld /usr/bin/lld-15 100 \
+ && update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-15 100
 
 
 #------------------------------
