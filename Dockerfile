@@ -62,7 +62,10 @@ RUN apt-get update && apt-get install -y \
 #------------------------------
 # C0 Installation
 #------------------------------
-RUN wget https://cs.cmu.edu/~15411/downloads/cc0-debian.deb \
+# Need to get cc0 from the course website (the S25 version) instead of the official cc0
+# location because the S25 cc0 correctly implements the dynamic semantics
+# Temporarily get the 15122 cc0 while fixing 15411 cc0.
+RUN wget https://c0.cs.cmu.edu/downloads/cc0-debian.deb \
  && apt-get update && apt-get install -y ./cc0-debian.deb \
  && rm cc0-debian.deb \
  && rm -rf /var/lib/apt/lists/*
